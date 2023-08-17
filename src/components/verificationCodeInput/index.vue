@@ -80,6 +80,7 @@ const inputCode = (e: any, index: number) => {
             .codeItem {
                 width: 30px;
                 height: 30px;
+                border-radius: 5px;
                 display: block;
                 background-color: #8abcd1;
 

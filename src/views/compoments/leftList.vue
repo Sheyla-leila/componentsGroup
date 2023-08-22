@@ -10,7 +10,7 @@ const menuList = ref([
     },
     {
         id: 2,
-        name: "el-select下拉框多选实现全选",
+        name: "el-select 手动/默认全选",
         data: "2023/08/16",
         isSelected: false
     },

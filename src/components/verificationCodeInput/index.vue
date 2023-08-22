@@ -1,4 +1,4 @@
-<!-- 安全码页 -->
+<!-- 验证码输入框页 -->
 <script setup lang="ts">
 import { ref } from "vue";
 

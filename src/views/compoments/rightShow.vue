@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import verificationCodeInput from "@/components/verificationCodeInput/index.vue"
+import element_SelectedAll from "@/components/element_SelectedAll/index.vue"
+
+const props = defineProps({
+    //子组件接收父组件传递过来的值
+    receiptSelectedItem: Number,
+})
+console.log("选中组件Id值为：", props)
 </script>
 
 <template>
     <div class="show_wrap flex_row flex_center">
         <div class="show flex_row flex_center">
-            <verificationCodeInput />
+            <verificationCodeInput v-if="receiptSelectedItem == 1" />
+            <element_SelectedAll v-if="receiptSelectedItem == 2" />
         </div>
     </div>
 </template>

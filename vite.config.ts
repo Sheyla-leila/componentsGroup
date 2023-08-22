@@ -12,7 +12,7 @@ export default defineConfig({
   },
   server: {
     // host: '192.168.1.3',      // 在家网络
-    host: '192.168.2.69',     // 公司网络
+    host: '192.168.2.71',     // 公司网络
     port: 808, //未占用端口
     proxy: {
       '/api': {
@@ -22,6 +22,7 @@ export default defineConfig({
         secure: false, // 验证 SSL 证书
         rewrite: (path) => path.replace(/^\/api/, ""),  // 重写传过来的path路径
       }
+
     }
   },
 })

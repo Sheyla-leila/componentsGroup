@@ -1,15 +1,24 @@
 <script setup lang="ts">
 import leftList from "./compoments/leftList.vue"
 import rightShow from "./compoments/rightShow.vue"
+import { ref } from "vue"
+
+let receiptSelectedItem = ref(0)
+const sendSelectedItem = (sendId: number) => {
+    // sendId是接收到的子组件值的形参
+    receiptSelectedItem.value = sendId
+}
 </script>
 
 <template>
     <div class="menu_wrap  flex_row flex_between">
         <div class="itemList">
-            <leftList class="pseudoClass" />
+            <leftList class="pseudoClass" @on-click="sendSelectedItem" />
+            <!-- <leftList class="pseudoClass" /> -->
         </div>
         <div class="itemShow">
-            <rightShow />
+            <rightShow :receiptSelectedItem="receiptSelectedItem" />
+            <!-- <rightShow /> -->
         </div>
 
     </div>

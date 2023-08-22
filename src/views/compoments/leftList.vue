@@ -10,13 +10,13 @@ const menuList = ref([
     },
     {
         id: 2,
-        name: "登录/注册",
+        name: "el-select下拉框多选实现全选",
         data: "2023/08/16",
         isSelected: false
     },
     {
         id: 3,
-        name: "车牌键盘",
+        name: "登录/注册",
         data: "2023/08/16",
         isSelected: false
     },
@@ -28,20 +28,29 @@ const menuList = ref([
     },
     {
         id: 5,
-        name: "验证码输入框5",
+        name: "车牌键盘",
         data: "2023/08/16",
         isSelected: false
     }
 ])
 
+const emit = defineEmits(['on-click'])
 const isSelect = (id: number) => {
+    /** 修改选中状态
+     * 
+    */
+    // 1. 将所有选项的状态都修改为false，避免出现选中多个选项的情况
     menuList.value.forEach(element => {
         element.isSelected = false
     });
-
+    // 2. 将选中的选项状态改为true
     const item = menuList.value.find(item => item.id === id)
     if (item) item.isSelected = true
+
+    // 发送选中的组件Id给父组件
+    emit('on-click', id)
 }
+
 </script>
 
 <template>
@@ -49,8 +58,8 @@ const isSelect = (id: number) => {
         <div class="list">
             <div class="listTitle ellipticalSingleText">组件列表</div>
             <ul class="listContent flex_col" v-for="(item) in menuList" :key="item.id">
-                <li class="item ellipticalSingleText" :class="item.isSelected ? 'selected' : ''"
-                    @click="isSelect(item.id)">{{ item.name }}</li>
+                <li class="item ellipticalSingleText" :class="item.isSelected ? 'selected' : ''" @click="isSelect(item.id)">
+                    {{ item.name }}</li>
             </ul>
         </div>
     </div>

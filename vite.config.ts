@@ -4,7 +4,9 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue({
+    reactivityTransform: true
+  })],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src")
@@ -12,8 +14,8 @@ export default defineConfig({
   },
   server: {
     // host: '192.168.1.3',      // 在家网络
-    host: '192.168.2.71',     // 公司网络
-    port: 808, //未占用端口
+    host: '192.168.2.90',     // 公司网络
+    port: 8084, //未占用端口
     proxy: {
       '/api': {
         target: "http://localhost:7001", // 所要代理的目标地址

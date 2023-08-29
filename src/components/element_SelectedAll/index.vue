@@ -6,37 +6,18 @@ let checked = ref(false)                                // 用于记录全选与
 let selectedArray = ref<String[] | null>(null)          // 用于存放选中的数组
 
 // options选项内容
-const options = ref([
-    {
-        label: "周一", value: 'monday'
-    },
-    {
-        label: "周二", value: 'tuesday'
-    },
-    {
-        label: "周三", value: 'wednesday'
-    },
-    {
-        label: "周四", value: 'thursday'
-    },
-    {
-        label: "周五", value: 'friday'
-    },
-    {
-        label: "周六", value: 'saturday'
-    },
-    {
-        label: "周日", value: 'sunday'
-    }
-])
-
+const props = defineProps({
+    options_element_SelectedAll: Object
+})
+const options = props?.options_element_SelectedAll?.itemData
+const defaultSelect = props?.options_element_SelectedAll?.isDefualtAll
 
 /**
  * 判断全选与否
  */
 const changeSelect = (valueArr: string[]) => {
     selectedArray.value = valueArr                      // 注意在对ref对象赋值时，不能省略.value，否则会报错
-    if (selectedArray.value.length === options.value.length) {
+    if (selectedArray.value.length === options.length) {
         // 当selectedArray的长度等于整个选项数组长度，则代表为全选，此时将全选复选框的状态改为true
         checked.value = true
     } else {
@@ -52,7 +33,7 @@ function selectAll() {
     selectedArray.value = []
     // 若全选复选框状态为true，将整个选项数组的value都压入selectedArray数组
     if (checked.value) {
-        options.value.map((item) => {
+        options.map((item: any) => {
             if (selectedArray.value) selectedArray.value.push(item.value)
         })
     } else {
@@ -61,12 +42,15 @@ function selectAll() {
 }
 
 /**
- * 打开网页默认为全选
+ * 判断是否打开网页默认为全选
  */
 const defualtSelectedAll = () => {
     // 进入页面，checked状态为修改为true，默认为全选（这里也可以在声明checked时直接设为true），调用实现全选控制的函数
-    checked.value = true
-    selectAll()
+    if (defaultSelect == true) {
+        checked.value = true
+        selectAll()
+    }
+
 }
 defualtSelectedAll()
 </script>

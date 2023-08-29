@@ -7,16 +7,30 @@
  *  借用数组的index来区分所获取dom数组中dom的顺序,以此实现焦点的跳转
  *  由于全程都是用过直接跳转焦点，没有失去焦点的情况，因此不会出现多次调起并关闭键盘的情况
  */
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
+// 从父组件获取相关初始配置
 const props = defineProps({
     options_verificationCode: Object,
+    isRight: Boolean
 })
-
-// 样式相关配置
 const options_style = props?.options_verificationCode?.style
 const options_config = props?.options_verificationCode?.config
 
+// 声明emit，将输入的验证码传送到父组件
+const emit = defineEmits(["SonValue"])
+const _sendData = (codeString: string) => {
+    emit("SonValue", codeString)
+}
+
+// 监听是否通过判断，并做出相应反应
+// 此处是若验证码错误，则将验证框清空，并且第一个验证狂获取焦点
+watch(() => props.isRight, newData => {
+    if (newData == false) {
+        inputArr = []
+        inputDom.value[0].focus()
+    }
+})
 
 let inputArr: number[] = []
 const inputDom = ref<any>([])
@@ -38,8 +52,8 @@ const inputCode = (e: any, index: number) => {
                 return element
             }).join("")
 
-            // 执行后续逻辑操作
-            _handlingResult(codeStr)
+            // 将输入的验证码传送到父组件
+            _sendData(codeStr)
         }
     } else {
         // 若输入的值是删除键，在跳回第一个输入框前，每删除一个数字，焦点都自动跳到前一个input框
@@ -48,18 +62,6 @@ const inputCode = (e: any, index: number) => {
         }
     }
 };
-
-const _handlingResult = (codeStr: String) => {
-    // 此处是模拟正确验证码为123456
-    let rightCode = '123456'
-    if (codeStr === rightCode) {
-        alert("验证通过")
-    } else {
-        alert("验证失败")
-        inputArr = []
-        console.log('inputArr', inputArr)
-    }
-}
 </script>
 
 <template>

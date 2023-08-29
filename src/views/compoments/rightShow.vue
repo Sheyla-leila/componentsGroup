@@ -9,7 +9,14 @@ const props = defineProps({
 })
 console.log("选中组件Id值为：", props)
 
-// 验证码组件数据
+/**
+ * 一、验证码组件
+ *  1. 从父组件传入样式、配置等基础数据
+ *  2. 从子组件接收所获取到的验证码数字
+ *  3. 对输入的验证码进行判断处理
+ *  4. 将是否通过判断的状态值传给子组件，进行相应处理
+ */
+// 1. 从父组件传入样式、配置等基础数据
 const options_verificationCode = ref({
     style: {
         wrap: {
@@ -43,13 +50,67 @@ const options_verificationCode = ref({
         inputType: 'tel'        // 输入字符的类型
     }
 })
+// 2. 从子组件接收所获取到的验证码数字
+const ValFromSon = (value: string) => {
+    _handlingResult(value)          // 获取验证码数字后进行后续处理
+}
+// 3. 对输入的验证码进行判断处理
+let isRight = ref(true)
+const _handlingResult = (codeStr: String) => {
+    // 此处是模拟正确验证码为123456
+    let rightCode = '123456'
+    if (codeStr === rightCode) {
+        // 4. 将是否通过判断的状态值传给子组件
+        isRight.value = true
+        alert("验证通过")
+    } else {
+        // 4. 将是否通过判断的状态值传给子组件
+        isRight.value = false
+        alert("验证失败")
+    }
+}
+
+/**
+ * 二、element下拉框全选
+ *  1. 从父组件传入样式、配置等基础数据
+ */
+
+const options_element_SelectedAll = ref({
+    itemData: [
+        {
+            label: "周一", value: 'monday'
+        },
+        {
+            label: "周二", value: 'tuesday'
+        },
+        {
+            label: "周三", value: 'wednesday'
+        },
+        {
+            label: "周四", value: 'thursday'
+        },
+        {
+            label: "周五", value: 'friday'
+        },
+        {
+            label: "周六", value: 'saturday'
+        },
+        {
+            label: "周日", value: 'sunday'
+        }
+    ],
+    isDefualtAll: true
+})
+
 </script>
 
 <template>
     <div class="show_wrap flex_row flex_center">
         <div class="show flex_row flex_center">
-            <verificationCodeInput v-if="receiptSelectedItem == 1" :options_verificationCode="options_verificationCode" />
-            <element_SelectedAll v-if="receiptSelectedItem == 2" />
+            <verificationCodeInput v-if="receiptSelectedItem == 1" :options_verificationCode="options_verificationCode"
+                :isRight="isRight" @SonValue="ValFromSon" />
+            <element_SelectedAll v-if="receiptSelectedItem == 2"
+                :options_element_SelectedAll="options_element_SelectedAll" />
         </div>
     </div>
 </template>

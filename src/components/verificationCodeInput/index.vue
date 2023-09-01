@@ -24,7 +24,7 @@ const _sendData = (codeString: string) => {
 }
 
 // 监听是否通过判断，并做出相应反应
-// 此处是若验证码错误，则将验证框清空，并且第一个验证狂获取焦点
+// 此处是若验证码错误，则将验证框清空，并且第一个验证框获取焦点
 watch(() => props.isRight, newData => {
     if (newData == false) {
         inputArr = []
@@ -69,9 +69,15 @@ const inputCode = (e: any, index: number) => {
     <div class="code_warp flex_col flex_center">
         <div class="secondTitle">请输入验证码</div>
         <div class="codeList flex_row flex_center">
-            <div class="list_wrap flex_row flex_around" v-for="n in options_config.inputNumber " :key="n">
-                <input :type="options_config.inputType" :maxlength="options_config.inputLength" class="codeItem"
+            <div class="list_wrap flex_row flex_around" v-for="n in options_config.inputNumber" :key="n">
+                <!-- v-for="n in options_config.inputNumber" 循环控制输入框个数 -->
+                <input class="codeItem" :type="options_config.inputType" :maxlength="options_config.inputLength"
                     ref="inputDom" v-model="inputArr[n - 1]" @keyup="inputCode($event, n - 1)" />
+                <!-- :type="options_config.inputType" 接收来自父组件的样式和配置 -->
+                <!-- :maxlength="options_config.inputLength" 动态设置每个输入框能输入的最大值 -->
+                <!-- ref="inputDom" 获取input输入框的Dom -->
+                <!-- v-model="inputArr[n - 1]" 将input输入值存入数组inputArr，由于ref获取的inputDom在js代码中的处理是存入数组，为了将dom和存入的值一一绑定，可以以数组下标为标识，但是由于n是从1开始，因此需要减一 -->
+                <!-- @keyup="inputCode($event, n - 1)" 传入事件和当前值在数组中的下标 -->
             </div>
         </div>
     </div>
@@ -79,8 +85,11 @@ const inputCode = (e: any, index: number) => {
 </template>
 
 <style scoped lang="scss">
+// 在scss中，可以使用v-bind动态设置样式的值，且可以在（）中使用表达式
 .code_warp {
     width: v-bind("options_style.wrap.width ?? '60%'");
+    // options_style.wrap.width是从父组件中传入的值，若没有值，则默认为60%
+    // ?? 是ts中的或表达，类似于js中的||，但是不会像||一般将0判断为false
     height: v-bind("options_style.wrap.height ?? '60%'");
     background-color: v-bind("options_style.wrap.bgColoer ?? '#d0deaa'");
     border-radius: v-bind("options_style.wrap.borderRadius ?? '10px'");

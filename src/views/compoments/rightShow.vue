@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import verificationCodeInput from "@/components/verificationCodeInput/index.vue"
 import element_SelectedAll from "@/components/element_SelectedAll/index.vue"
+import login from "@/components/login/index.vue"
 import { ref } from "vue"
 
 const props = defineProps({
@@ -74,7 +75,6 @@ const _handlingResult = (codeStr: String) => {
  * 二、element下拉框全选
  *  1. 从父组件传入样式、配置等基础数据
  */
-
 const options_element_SelectedAll = ref({
     itemData: [
         {
@@ -109,8 +109,12 @@ const options_element_SelectedAll = ref({
         <div class="show flex_row flex_center">
             <verificationCodeInput v-if="receiptSelectedItem == 1" :options_verificationCode="options_verificationCode"
                 :isRight="isRight" @SonValue="ValFromSon" />
+                <!-- options_xxx：将样式、配置等基本信息传给子组件 -->
+                <!-- isRight：传值给子组件，告诉子组件验证是否通过 -->
+                <!-- @SonValue="ValFromSon"：从子组件接收处理好后的字符串 -->
             <element_SelectedAll v-if="receiptSelectedItem == 2"
                 :options_element_SelectedAll="options_element_SelectedAll" />
+            <login v-if="receiptSelectedItem == 3"/>
         </div>
     </div>
 </template>
